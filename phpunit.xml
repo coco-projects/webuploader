@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap="vendor/autoload.php"
+		 cacheResultFile=".build/phpunit.result.cache" colors="true" verbose="true">
+	<coverage processUncoveredFiles="true">
+		<include>
+			<directory suffix=".php">src</directory>
+		</include>
+		<report>
+			<clover outputFile=".build/coverage/coverage.xml"/>
+			<html outputDirectory=".build/coverage/html-report" lowUpperBound="35" highLowerBound="70"/>
+			<php outputFile=".build/coverage/coverage.serialized.php"/>
+			<text outputFile="php://stdout" showUncoveredFiles="false"/>
+			<xml outputDirectory=".build/coverage/coverage-xml"/>
+		</report>
+	</coverage>
+	<testsuites>
+		<testsuite name="coco-testst">
+			<directory suffix=".php">./tests/</directory>
+		</testsuite>
+	</testsuites>
+	<logging>
+		<junit outputFile=".build/coverage/logfile.xml"/>
+		<testdoxHtml outputFile=".build/coverage/testdox.html"/>
+		<testdoxText outputFile=".build/coverage/testdox.txt"/>
+	</logging>
+</phpunit>

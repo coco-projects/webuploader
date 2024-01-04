@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>webuploader</title>
+		<link rel="stylesheet" href="static/pear/css/pear.css"/>
+		<link rel="stylesheet" href="static/plugins/webuploader/webuploaderMultiFile.css"/>
+
+		<style></style>
+	</head>
+
+	<body>
+
+		<div class="layui-container ">
+			<div id="uploader"></div>
+		</div>
+
+		<script src="static/plugins/jquery-1.10.2.min.js"></script>
+		<script src="static/plugins/spark-md5.min.js"></script>
+		<script src="static/plugins/webuploader/webuploader.js"></script>
+
+		<script src="static/layui/layui.js"></script>
+		<script src="static/pear/pear.js"></script>
+		<script src="static/js/common.js"></script>
+		<script src="static/plugins/webuploader/webuploaderMultiFile.js"></script>
+
+		<script>
+
+			(function () {
+
+				let containerId       = "#uploader";
+				let fieldName         = "image[]";
+				let serverFieldName   = "test_images";
+				let uploadApi         = "../uploadApi.php";
+				let getChunkStatusApi = "../getChunkStatusApi.php";
+				let mergeApi          = "../mergeApi.php";
+				let clearTempApi      = "../clearTempFile.php";
+				let staticBasePath    = "static/images/file_icon/icon_file/";
+
+				let config = {
+					server : uploadApi,
+					fileVal: serverFieldName,
+
+					pick: {
+						label: "选择文档",
+						class: "my-uploader-button"
+						// style: "background-color: #f00;"
+					},
+
+					chunked   : true,
+					threads   : 20,
+					chunkRetry: 5,
+					chunkSize : 6 * 1024 * 1024,
+
+					headers: {
+						// "x-chunk-size"   : this.size,
+					},
+
+					timeout  : 15 * 60 * 1000,
+					duplicate: true,
+					accept   : {
+						// title: "Images"
+						// extensions: "gif,jpg,jpeg,bmp,png",
+						// mimeTypes : "image/*"
+					},
+
+					fileNumLimit       : 500,
+					fileSizeLimit      : 30000 * 1024 * 1024,
+					fileSingleSizeLimit: 30 * 1024 * 1024,
+
+					_extConfig: {
+						title            : "头像上传",
+						staticBasePath   : staticBasePath,
+						clearTempApi     : clearTempApi,
+						getChunkStatusApi: getChunkStatusApi,
+						fieldName        : fieldName,
+						mergeApi         : mergeApi
+					}
+				};
+
+				let uploaderControllerManager = new uploaderController(containerId, config).render();
+
+			})();
+
+		</script>
+	</body>
+
+</html>

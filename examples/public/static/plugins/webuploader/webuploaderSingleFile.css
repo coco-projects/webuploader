@@ -1,0 +1,126 @@
+.webuploader-container{
+    /* position : relative; */
+    width : 100%;
+}
+
+.webuploader-element-invisible{
+    position : absolute !important;
+    clip     : rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip     : rect(1px, 1px, 1px, 1px);
+}
+
+.webuploader-pick{
+    position      : relative;
+    /* display       : inline-block; */
+    cursor        : pointer;
+    background    : #00b7ee;
+    padding       : 10px 15px;
+    color         : #fff;
+    text-align    : center;
+    border-radius : 3px;
+    overflow      : hidden;
+}
+
+.webuploader-pick-hover{
+    background : #00a2d4;
+}
+
+.single-img-box-item{
+    width: 146px;
+    /* height: 266px; */
+    /* text-align : center; */
+    position   : relative;
+    display    : inline-block;
+    /* float      : left; */
+    overflow   : hidden;
+    font-size  : 12px;
+    background: #cfcfcf;
+}
+
+.single-img-box-box{
+
+}
+
+.webuploader-pick-disable{
+    opacity        : 0.6;
+    pointer-events : none;
+}
+
+
+/*****************************************************************/
+/*****************************************************************/
+.single-img-upload-container{
+    /* background : #00f7de; */
+    /* width      : 200px; */
+    border        : 4px dashed #ccc;
+    border-radius : 16px;
+}
+
+div#uploader{
+}
+
+.single-img-box{
+    /* background: #f3f3f3; */
+    padding    : 9px;
+    min-height : 100px;
+}
+
+.single-img-upload-preview-box{
+    height     : 120px;
+    width      : 130px;
+    text-align : center;
+    margin     : 0 auto;
+    /* background : #0f3; */
+    overflow   : hidden;
+}
+
+.single-img-upload-preview{
+    height : 120px;
+    /* margin   : 0 auto; */
+    /* display: inline; */
+    /* overflow : hidden; */
+    /* display: inline-block; */
+}
+
+.single-img-upload-info{
+
+}
+
+.single-img-done-info{
+    padding       : 6px;
+    text-overflow : ellipsis;
+    white-space   : nowrap;
+    overflow      : hidden;
+    height        : 18px;
+    line-height   : 18px;
+}
+
+.single-img-upload-info-title{
+    display       : block;
+    text-overflow : ellipsis;
+    white-space   : nowrap;
+    overflow      : hidden;
+    height        : 18px;
+    line-height   : 18px;
+    /* font-size: 18px; */
+}
+
+.single-img-upload-info-mime{
+    display       : block;
+    text-overflow : ellipsis;
+    white-space   : nowrap;
+    overflow      : hidden;
+    height        : 18px;
+    line-height   : 18px;
+    /* font-size: 18px; */
+}
+
+.single-img-upload-msg{
+    padding : 0px;
+}
+
+.single-img-upload-container .title{
+    font-size : 20px;
+    padding   : 6px;
+
+}
