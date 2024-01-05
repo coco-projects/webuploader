@@ -102,7 +102,7 @@
 							<div class="layui-progress-bar layui-bg-blue" lay-percent="0%"></div>
 						</div>
 
-						<input type="hidden" name="__fieldName__" class="layui-input">
+						<input type="hidden" name="__fieldName__" class="form-value">
 					</li>
 `;
 
@@ -258,6 +258,12 @@
         this_.getJqObject().find(".single-img-upload-merge-error").hide();
     };
 
+    fileObject.prototype.setFormValue = function (value) {
+        let this_ = this;
+
+        this_.getJqObject().find(".form-value").val(value);
+    };
+
     fileObject.prototype.getFileChunkTotal = function () {
         let this_ = this;
 
@@ -326,6 +332,7 @@
             resize          : false,//尺寸不改变
             prepareNextFile : true,
             disableWidgets  : "log",
+            chunked         : true,
             pick            : {
                 multiple: true,
                 id      : $(this.id + " .file-picker")
@@ -422,6 +429,7 @@
                     {
                         fileObjectManager.setFileExists();
                         fileObjectManager.setFileChunkSuccess();
+                        fileObjectManager.setFormValue(tempData["savename"]);
 
                         fileObjectManager.getJqObject().find(".img-delete").remove();
                         fileObjectManager.getJqObject().find(".img-reupload").remove();
@@ -664,12 +672,20 @@
     uploaderController.prototype.calcAllPercentage = function () {
 
         let
-            percent,
+            percentSize,
+            percentCount,
             loaded = this.calcQueueUploadedSize(),
             status = this.uploader.getStats(),
             total  = this.calcQueueTotalSize();
 
-        percent = total ? (loaded / total) : 0;
+        percentSize = total ? (loaded / total) : 0;
+        percentSize = percentSize * 100;
+        percentSize = percentSize.toFixed(2);
+
+        percentCount = status.successNum / this.allFileCount;
+        percentCount = percentCount * 100;
+        percentCount = percentCount.toFixed(2);
+
 
         this.setFileSizeNow(WebUploader.formatSize(loaded));
         this.setFileCountNow(status.successNum);
@@ -677,8 +693,8 @@
         this.setUploadUseTime();
         this.setUploadSpeed(WebUploader.formatSize((loaded / this.getUsedTime())) + "/S");
 
-        this.setFileSizePercentsage(Math.ceil(percent * 100));
-        this.setFileCountPercentsage(Math.ceil((status.successNum / this.allFileCount) * 100));
+        this.setFileSizePercentsage(percentSize);
+        this.setFileCountPercentsage(percentCount);
 
         /*
          `successNum` 上传成功的文件数
@@ -869,6 +885,16 @@
         let val   = this.getJqObject().find(".already-merge").text();
         val       = parseInt(val);
         val++;
+
+        this.getJqObject().find(".already-merge").text(val);
+    };
+
+    //已经合并
+    uploaderController.prototype.decAlreadyMerge = function () {
+        let this_ = this;
+        let val   = this.getJqObject().find(".already-merge").text();
+        val       = parseInt(val);
+        val--;
 
         this.getJqObject().find(".already-merge").text(val);
     };
@@ -1185,6 +1211,7 @@
                                     this_.incAlreadyMerge();
                                     fileObjectManager.setFileChunkMerged();
                                     fileObjectManager.removeFileChunkMergeError();
+                                    fileObjectManager.setFormValue(data["savename"]);
 
                                     fileObjectManager.getJqObject().find(".img-delete").remove();
                                     fileObjectManager.getJqObject().find(".img-reupload").remove();
@@ -1203,6 +1230,7 @@
                             eventSource.addEventListener("process", function (event) {
                                 // 获取服务器端发送的数据
                                 let data = JSON.parse(event.data);
+                                fileObjectManager.removeFileChunkMergeError();
 
                                 fileObjectManager.setMergePercentsage(data.process * 100);
                             });

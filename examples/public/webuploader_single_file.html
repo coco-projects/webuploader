@@ -20,7 +20,7 @@
 
 		<script src="static/plugins/jquery-1.10.2.min.js"></script>
 		<script src="static/plugins/spark-md5.min.js"></script>
-		<script src="static/plugins/webuploader/webuploader.js"></script>
+		<script src="static/plugins/webuploader/webuploader.min.js"></script>
 
 		<script src="static/layui/layui.js"></script>
 		<script src="static/pear/pear.js"></script>
@@ -31,57 +31,73 @@
 
 			(function () {
 
-				let containerId       = "#uploader";
-				let fieldName         = "image[]";
-				let serverFieldName   = "test_images";
-				let uploadApi         = "../uploadApi.php";
-				let getChunkStatusApi = "../getChunkStatusApi.php";
-				let mergeApi          = "../mergeApi.php";
-				let clearTempApi      = "../clearTempFile.php";
-				let staticBasePath    = "static/images/file_icon/icon_file/";
+				//上传ui 容器id ，一个div标签即可
+				let containerId = "#uploader";
 
 				let config = {
-					server : uploadApi,
-					fileVal: serverFieldName,
+
+					//此处参数都必填
+					_extConfig: {
+
+						//组件标题
+						title: "头像上传",
+
+						//上传文件预览的 icon 位置
+						staticBasePath: "static/images/file_icon/icon_file/",
+
+						//每个文件上传完成时会将返回的 savename 写入到一个hidden input 中，此处指定input 的 name 值
+						fieldName: "image[]",
+
+						//清除过时临时分片文件api
+						clearTempApi: "../clearTempFile.php",
+
+						//获取文件分片状态api
+						getChunkStatusApi: "../getChunkStatusApi.php",
+
+						//合并分片api
+						mergeApi: "../mergeApi.php"
+					},
+
+					//上传api
+					server: "../uploadApi.php",
+
+					// $_FILES 的键
+					fileVal: "test_images",
 
 					pick: {
-						label: "选择文档",
-						class: "my-uploader-button"
+						label: "选择文档"
+						// class: "my-uploader-button"
 						// style: "background-color: #f00;"
 					},
 
-					chunked   : true,
-					threads   : 20,
+					//分片设置，
 					chunkRetry: 5,
-					chunkSize : 6 * 1024 * 1024,
 
-					headers: {
-						// "x-chunk-size"   : this.size,
-					},
+					//建议 chunkSize 4M - 8M
+					chunkSize: 6 * 1024 * 1024,
 
-					timeout  : 15 * 60 * 1000,
-					duplicate: true,
-					accept   : {
+					//threads 参数，根据服务器配置，建议 5-50 之间，过大过小都会导致上传平均速度过慢
+					threads: 30,
+
+					//文件限制配置
+					fileNumLimit       : 10,
+					fileSingleSizeLimit: 102400 * 1024 * 1024,
+					fileSizeLimit      : 1024000 * 1024 * 1024,
+					accept             : {
 						// title: "Images"
 						// extensions: "gif,jpg,jpeg,bmp,png",
 						// mimeTypes : "image/*"
 					},
 
-					fileNumLimit       : 10,
-					fileSizeLimit      : 1024 * 1024 * 1024,
-					fileSingleSizeLimit: 100 * 1024 * 1024,
-
-					_extConfig: {
-						title            : "头像上传",
-						staticBasePath   : staticBasePath,
-						clearTempApi     : clearTempApi,
-						getChunkStatusApi: getChunkStatusApi,
-						fieldName        : fieldName,
-						mergeApi         : mergeApi
-					}
+					//其他配置
+					headers  : {
+						// "x-chunk-size"   : 1024*4,
+					},
+					timeout  : 15 * 60 * 1000,
+					duplicate: true
 				};
 
-				let uploaderControllerManager = new uploaderController(containerId, config).render();
+				new uploaderController(containerId, config).render();
 
 			})();
 

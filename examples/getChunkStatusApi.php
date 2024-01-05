@@ -19,6 +19,8 @@
         $hash   = ($_REQUEST['hash']) ?? '769f995964d0244fa0a36e4552092295';
 
         $uploader = WebUploader::getInsForGetChunkStatus($hash, $target, $tmp);
+        $uploader->setSaveNameField('path');
+        $uploader->setHashField('hash');
 
         $dbName = 'webuploader';
         $table  = 'files22';
@@ -29,7 +31,6 @@
         ];
 
         $uploader->initDb($dbName, $table, $config)->setEnableDb(true);
-        $uploader->setHashField('hash');
 
         $result['code'] = 1;
         $result['data'] = $uploader->getFileChunkStatus();

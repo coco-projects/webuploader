@@ -19,6 +19,7 @@ class WebUploader
     use Statization;
 
     protected ?string $hashField = null;
+    protected ?string $saveNameField = null;
 
     protected $pathGenerator          = null;
     protected $insertCallback         = null;
@@ -203,8 +204,9 @@ class WebUploader
                     $info['path'],
                 ]);
 
-                if ($this->isFileExistsByHash($hash) && is_file($realPath)) {
+                if (($fileInfo = $this->fileInfoByHash($hash)) && is_file($realPath)) {
                     $result['is_exists'] = 1;
+                    $result['savename']  = $fileInfo[$this->saveNameField];
                 } else {
                     $result['is_exists'] = 0;
                 }
@@ -638,6 +640,13 @@ class WebUploader
     public function setHashField(?string $hashField): static
     {
         $this->hashField = $hashField;
+
+        return $this;
+    }
+
+    public function setSaveNameField(?string $saveNameField): static
+    {
+        $this->saveNameField = $saveNameField;
 
         return $this;
     }

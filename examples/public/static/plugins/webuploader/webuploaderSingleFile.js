@@ -69,9 +69,9 @@
 
 							<div class="" style="padding: 3px 0;">
 								<div class="layui-btn-group">
-									<button class="layui-btn layui-btn-xs layui-btn-danger img-delete">
+							<!--		<button class="layui-btn layui-btn-xs layui-btn-danger img-delete">
 										<i class="layui-icon layui-icon-clear"></i>
-									</button>
+									</button>-->
 									<button class="layui-btn layui-btn-xs img-reupload" style="display: none">
 										<i class="layui-icon layui-icon-upload-circle"></i>
 									</button>
@@ -102,7 +102,7 @@
 							<div class="layui-progress-bar layui-bg-blue" lay-percent="0%"></div>
 						</div>
 
-						<input type="hidden" name="__fieldName__" class="layui-input">
+						<input type="hidden" name="__fieldName__" class="form-value">
 					</li>
 `;
 
@@ -258,6 +258,12 @@
         this_.getJqObject().find(".single-img-upload-merge-error").hide();
     };
 
+    fileObject.prototype.setFormValue = function (value) {
+        let this_ = this;
+
+        this_.getJqObject().find(".form-value").val(value);
+    };
+
     fileObject.prototype.getFileChunkTotal = function () {
         let this_ = this;
 
@@ -328,6 +334,7 @@
             resize          : false,//尺寸不改变
             prepareNextFile : true,
             disableWidgets  : "log",
+            chunked         : true,
             pick            : {
                 multiple: false,
                 id      : $(this.id + " .file-picker")
@@ -424,6 +431,7 @@
                     {
                         fileObjectManager.setFileExists();
                         fileObjectManager.setFileChunkSuccess();
+                        fileObjectManager.setFormValue(tempData["savename"]);
 
                         fileObjectManager.getJqObject().find(".img-delete").remove();
                         fileObjectManager.getJqObject().find(".img-reupload").remove();
@@ -1062,6 +1070,7 @@
 
             let fileObjectManager = new fileObject(file, uploader);
             let uploadItem        = fileObjectManager.getJqObject();
+            this_.currentFile     = null;
 
             this_.removeFile(file);
             uploadItem.remove();
@@ -1141,7 +1150,6 @@
                     // fileObjectManager.getJqObject().find(".img-delete").remove();
                     fileObjectManager.getJqObject().find(".img-reupload").show();
 
-
                     fileObjectManager.setPercentsage(100);
                     this_.setSingleFilePercentageFloat(file.id, 1);
 
@@ -1177,7 +1185,7 @@
                                 {
                                     this_.incAlreadyMerge();
                                     fileObjectManager.setFileChunkMerged();
-                                    fileObjectManager.removeFileChunkMergeError();
+                                    fileObjectManager.setFormValue(data["savename"]);
 
                                     fileObjectManager.getJqObject().find(".img-delete").remove();
                                     fileObjectManager.getJqObject().find(".img-reupload").remove();
@@ -1195,6 +1203,7 @@
                             eventSource.addEventListener("process", function (event) {
                                 // 获取服务器端发送的数据
                                 let data = JSON.parse(event.data);
+                                fileObjectManager.removeFileChunkMergeError();
 
                                 fileObjectManager.setMergePercentsage(data.process * 100);
                             });

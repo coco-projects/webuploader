@@ -11,7 +11,7 @@
 
 ---
 
-> > 客户端和服务器端详细示例参考 examples 文件夹
+> 客户端和服务器端详细示例参考 examples 文件夹
 
 ### 功能介绍
 
@@ -32,6 +32,114 @@
 * 成功上传的文件，临时分片文件会自动被删除，但上传中断产生的分片文件会残留在服务器中，此脚本用于清理超过指定时间的临时分片文件
 * 建议设定定时任务 30 分钟调用一次，分片残留时间建议设定为 7200 秒
 * 客户端需配置自动定时调用此接口，默认设定 30 分钟调用一次
+
+---
+### 预览
+
+* 文件加入队列
+
+![示例1](public/1.png)
+
+* 开始上传
+* 如果上传一部分后页面被刷新中断，再次上传时会自动跳过已经上传的分片，继续上传
+
+![示例1](public/2.png)
+
+* 上传完成自动合并文件，合并时可实时看到进度，通过 JS 的 EventSource 实现
+* 如显示合并失败，缺少分片数据，可点击上方蓝色重传按钮，重新上传缺失的分片
+* 重传后会自动重新触发合并
+
+![示例1](public/3.png)
+
+* 合并完成
+
+![示例1](public/4.png)
+
+* 上传过的文件，再次上传时，会提示秒传
+
+![示例1](public/5.png)
+
+
+---
+
+### 配置
+
+
+```javascript
+
+(function () {
+
+    //上传ui 容器id ，一个div标签即可
+  let containerId       = "#uploader";
+
+  let config = {
+
+      //此处参数都必填
+    _extConfig: {
+        
+        //组件标题
+      title            : "头像上传",
+    
+      //上传文件预览的 icon 位置
+      staticBasePath   : "static/images/file_icon/icon_file/",
+      
+      //每个文件上传完成时会将返回的 savename 写入到一个hidden input 中，此处指定input 的 name 值
+      fieldName        : "image[]",
+  
+      //清除过时临时分片文件api
+      clearTempApi     : "../clearTempFile.php",
+      
+      //获取文件分片状态api
+      getChunkStatusApi: "../getChunkStatusApi.php",
+  
+      //合并分片api
+      mergeApi         : "../mergeApi.php"
+    },
+    
+    //上传api
+    server :  "../uploadApi.php",
+    
+    // $_FILES 的键
+    fileVal:  "test_images",
+
+    pick: {
+      label: "选择文档"
+      // class: "my-uploader-button"
+      // style: "background-color: #f00;"
+    },
+
+    //分片设置，
+    chunkRetry: 5,
+    
+    //建议 chunkSize 4M - 8M
+    chunkSize : 6 * 1024 * 1024,
+
+    //threads 参数，根据服务器配置，建议 5-50 之间，过大过小都会导致上传平均速度过慢
+    threads   : 30,
+
+    //文件限制配置
+    fileNumLimit       : 10,
+    fileSingleSizeLimit: 102400 * 1024 * 1024,
+    fileSizeLimit      : 1024000 * 1024 * 1024,
+    accept   : {
+      // title: "Images"
+      // extensions: "gif,jpg,jpeg,bmp,png",
+      // mimeTypes : "image/*"
+    },
+    
+    //其他配置
+    headers: {
+      // "x-chunk-size"   : 1024*4,
+    },
+    timeout  : 15 * 60 * 1000,
+    duplicate: true
+  };
+
+  new uploaderController(containerId, config).render();
+
+})();
+
+```
 
 ---
 
