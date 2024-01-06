@@ -1,5 +1,7 @@
 <?php
 
+    use Coco\sse\processor\StrandardProcessor;
+    use Coco\sse\SSE;
     use Coco\webuploader\events\FileMergedSuccessfulEvent;
     use Coco\webuploader\EventSource;
     use Coco\webuploader\WebUploader;
@@ -15,8 +17,6 @@
 
     try
     {
-        ini_set('max_execution_time', 0);
-
         $log           = new Logger('my_logger');
         $streamHandler = new StreamHandler('php://output', Logger::DEBUG);
         $log->pushHandler($streamHandler);
@@ -59,8 +59,10 @@
             file_put_contents('runtime/test.txt', $savename . PHP_EOL, 8);
         });
 
+        SSE::init(new StrandardProcessor());
+
         $uploader->setMergeProcessorCallback(function($process) {
-            EventSource::getIns('process')->send(json_encode([
+            SSE::getEventIns('process')->send(json_encode([
                 "process" => $process,
             ]));
         });
@@ -83,5 +85,4 @@
         $result['msg']  = $exception->getMessage();
     }
 
-    EventSource::getIns('msg')->send(json_encode($result));
-
+    SSE::getEventIns('msg')->send(json_encode($result));
