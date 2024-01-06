@@ -663,12 +663,21 @@
     uploaderController.prototype.calcAllPercentage = function () {
 
         let
-            percent,
+            percentSize,
+            percentCount,
             loaded = this.calcQueueUploadedSize(),
             status = this.uploader.getStats(),
             total  = this.calcQueueTotalSize();
 
-        percent = total ? (loaded / total) : 0;
+
+        percentSize = total ? (loaded / total) : 0;
+        percentSize = percentSize * 100;
+        percentSize = percentSize.toFixed(2);
+
+        percentCount = status.successNum / this.allFileCount;
+        percentCount = percentCount * 100;
+        percentCount = percentCount.toFixed(2);
+
 
         this.setFileSizeNow(WebUploader.formatSize(loaded));
         this.setFileCountNow(status.successNum);
@@ -676,8 +685,8 @@
         this.setUploadUseTime();
         this.setUploadSpeed(WebUploader.formatSize((loaded / this.getUsedTime())) + "/S");
 
-        this.setFileSizePercentsage(Math.ceil(percent * 100));
-        this.setFileCountPercentsage(Math.ceil((status.successNum / this.allFileCount) * 100));
+        this.setFileSizePercentsage(percentSize);
+        this.setFileCountPercentsage(percentCount);
 
         /*
          `successNum` 上传成功的文件数

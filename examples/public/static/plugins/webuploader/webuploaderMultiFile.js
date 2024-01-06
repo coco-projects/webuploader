@@ -686,7 +686,6 @@
         percentCount = percentCount * 100;
         percentCount = percentCount.toFixed(2);
 
-
         this.setFileSizeNow(WebUploader.formatSize(loaded));
         this.setFileCountNow(status.successNum);
 
