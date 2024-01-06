@@ -19,9 +19,9 @@
 		}
 	},
 	"require-dev"          : {
-		"phpstan/phpstan"           : "1.11.x-dev",
-		"phpunit/phpunit"           : "9.6.x-dev",
-		"squizlabs/php_codesniffer" : "4.0.x-dev"
+		"phpstan/phpstan"           : "^1.10",
+		"phpunit/phpunit"           : "^9.6",
+		"squizlabs/php_codesniffer" : "^3.8"
 	},
 	"autoload-dev"         : {
 		"psr-4" : {
