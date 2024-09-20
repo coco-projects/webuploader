@@ -1,18 +1,18 @@
 <?php
 
-    use Coco\webuploader\EventSource;
-    use Coco\webuploader\WebUploader;
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
+    use Coco\sse\SSE;
 
     require '../../vendor/autoload.php';
 
-//    $updateEvent = EventSource::getIns('update');
+
+    $processor = new \Coco\sse\processor\StrandardProcessor();
+
+    SSE::init($processor);
 
     $len = 5;
 
     for ($i = 0; $i < $len; $i++)
     {
-        EventSource::getIns('update')->send('data-' . $i);
+        SSE::getEventIns('update')->send('data-' . $i);
         sleep(1);
     }

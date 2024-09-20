@@ -12,8 +12,8 @@
     try
     {
         $log           = new Logger('my_logger');
-        $streamHandler = new StreamHandler('php://output', Logger::DEBUG);
-        $log->pushHandler($streamHandler);
+//        $streamHandler = new StreamHandler('php://output', Logger::DEBUG);
+//        $log->pushHandler($streamHandler);
 
         $result = [];
         $hash   = ($_REQUEST['hash']) ?? '769f995964d0244fa0a36e4552092295';

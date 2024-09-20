@@ -830,8 +830,8 @@ class WebUploader
     {
         $this->uploadedFileInfo = $uploadedFileInfo;
 
-        if (count($uploadedFileInfo) != 5) {
-            throw new \Exception('参数错误');
+        if (!isset($uploadedFileInfo['tmp_name'])) {
+            throw new \Exception('$_FILES 参数错误');
         }
 
         $this->uploadedFile = new TempFile($this->uploadedFileInfo['tmp_name']);

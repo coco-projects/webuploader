@@ -162,24 +162,12 @@ let hash = createFileIdentifier("test.png", 2544562);
 
 ```
 
+## usage
+
+see examples folder
+
 ---
-
-## Installation
-
-You can install the package via composer:
-
-```bash
-composer require coco-project/webuploader
-```
-
-## Testing
-
-``` bash
-composer test
-```
 
 ## License
-
----
 
 MIT

@@ -3,9 +3,7 @@
     use Coco\sse\processor\StrandardProcessor;
     use Coco\sse\SSE;
     use Coco\webuploader\events\FileMergedSuccessfulEvent;
-    use Coco\webuploader\EventSource;
     use Coco\webuploader\WebUploader;
-    use Godruoyi\Snowflake\Snowflake;
     use Monolog\Logger;
     use Monolog\Handler\StreamHandler;
     use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -15,11 +13,15 @@
     $tmp    = './runtime/tmp';
     $target = './runtime/target';
 
+
+    $processor = new \Coco\sse\processor\StrandardProcessor();
+    SSE::init($processor);
+
     try
     {
         $log           = new Logger('my_logger');
-        $streamHandler = new StreamHandler('php://output', Logger::DEBUG);
-        $log->pushHandler($streamHandler);
+//        $streamHandler = new StreamHandler('php://output', Logger::DEBUG);
+//        $log->pushHandler($streamHandler);
 
         $result   = [];
         $hash     = ($_REQUEST['hash']) ?? '53d98663ea900c1dc65325c7cbbd7edf';
@@ -37,7 +39,7 @@
         $uploader->setHashField('hash');
 
         $uploader->setFieldMap(function(WebUploader $uploader) {
-            $snowflake = new Snowflake;
+            $snowflake = new \Coco\snowflake\Snowflake();
 
             //字段名自定义，跟建表的字段保持一致即可，
             return [

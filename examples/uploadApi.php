@@ -1,6 +1,5 @@
 <?php
 
-    use Coco\webuploader\Validator\SizeValidator;
     use Coco\webuploader\WebUploader;
     use Monolog\Logger;
     use Monolog\Handler\StreamHandler;
@@ -17,8 +16,8 @@
     try
     {
         $log           = new Logger('my_logger');
-        $streamHandler = new StreamHandler('php://output', Logger::DEBUG);
-        $log->pushHandler($streamHandler);
+//        $streamHandler = new StreamHandler('php://output', Logger::DEBUG);
+//        $log->pushHandler($streamHandler);
 
         $uploader = WebUploader::getInsForUploader($_FILES['test_images'], $target, $tmp, $log);
 
