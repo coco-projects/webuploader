@@ -14,7 +14,7 @@
     $target = './runtime/target';
 
 
-    $processor = new \Coco\sse\processor\StrandardProcessor();
+    $processor = new StrandardProcessor();
     SSE::init($processor);
 
     try
@@ -60,8 +60,6 @@
             $savename = $uploader->getConfig('originName');
             file_put_contents('runtime/test.txt', $savename . PHP_EOL, 8);
         });
-
-        SSE::init(new StrandardProcessor());
 
         $uploader->setMergeProcessorCallback(function($process) {
             SSE::getEventIns('process')->send(json_encode([
