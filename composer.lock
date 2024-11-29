@@ -48,16 +48,16 @@
         },
         {
             "name": "coco-project/sse",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/coco-projects/sse.git",
-                "reference": "7440d5df4e20093f9e4df9817e5404a92bb2d770"
+                "reference": "dec388b219d48df281dd532dfac5f6c4c4d91316"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/coco-projects/sse/zipball/7440d5df4e20093f9e4df9817e5404a92bb2d770",
-                "reference": "7440d5df4e20093f9e4df9817e5404a92bb2d770",
+                "url": "https://api.github.com/repos/coco-projects/sse/zipball/dec388b219d48df281dd532dfac5f6c4c4d91316",
+                "reference": "dec388b219d48df281dd532dfac5f6c4c4d91316",
                 "shasum": ""
             },
             "require": {
@@ -82,9 +82,9 @@
             ],
             "support": {
                 "issues": "https://github.com/coco-projects/sse/issues",
-                "source": "https://github.com/coco-projects/sse/tree/v1.0.3"
+                "source": "https://github.com/coco-projects/sse/tree/v1.0.4"
             },
-            "time": "2024-11-29T12:43:46+00:00"
+            "time": "2024-11-29T14:07:41+00:00"
         },
         {
             "name": "monolog/monolog",
