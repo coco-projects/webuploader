@@ -25,7 +25,6 @@
                 render("data1", "open:" + "Connection to server opened", true);
             });
 
-
             eventSource.addEventListener("error", function (event) {
                 render("data1", "error:" + "Error occurred:" + event, true);
             });
